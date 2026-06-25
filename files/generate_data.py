@@ -17,11 +17,22 @@ MODEL = "gemini-2.5-flash"  # fast + cheap, plenty for this task
 SCHEMA_DESC = """
 {
   "name": string,
+  "headline": string|null,
+  "summary": string|null,
+  "contact": {
+    "email": string|null,
+    "phone": string|null,
+    "location": string|null,
+    "linkedin": string|null,
+    "portfolio": string|null
+  }|null,
   "education": [{"degree": string, "institution": string|null, "year": string|null}],
-  "experience": [{"title": string, "company": string, "duration": string|null, "skills_used": [string]}],
-  "projects": [{"name": string, "tech": [string]}],
+  "experience": [{"title": string, "company": string, "duration": string|null, "location": string|null, "bullets": [string], "skills_used": [string]}],
+  "projects": [{"name": string, "description": string|null, "tech": [string], "link": string|null}],
   "skills": [string],
-  "certifications": [string]
+  "certifications": [string],
+  "awards": [string],
+  "languages": [string]
 }
 Omit keys that have no data rather than using empty arrays.
 """
@@ -35,8 +46,15 @@ quickly without punctuation discipline, typos ok, casual tone) describing their 
 work experience, skills, projects. Vary: field (CS, business, design, engineering, marketing,
 medicine, etc), seniority (student to 10+ years), and writing style (terse vs rambling).
 
-"output": the same info structured according to this schema:
+"output": the same info structured according to this exact CV schema:
 {SCHEMA_DESC}
+
+Rules:
+- never add top-level keys outside the schema
+- never output a key like "degree" or "work_experience" at the top level
+- keep arrays empty only when no data exists
+- use null for optional scalar fields when unknown
+- if a field is absent, omit it entirely rather than inventing it
 
 Return ONLY the JSON object, no markdown fences, no preamble.
 """

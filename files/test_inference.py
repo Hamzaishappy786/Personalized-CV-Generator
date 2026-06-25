@@ -1,28 +1,56 @@
 """
-Test the fine-tuned CV-extractor adapter.
-
-pip install torch transformers peft
+Smoke test for the saved LoRA adapter.
 """
 
+from __future__ import annotations
+
 import json
+import os
+import sys
+from pathlib import Path
+
+os.environ["TRANSFORMERS_NO_TF"] = "1"
+os.environ["TRANSFORMERS_NO_FLAX"] = "1"
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from peft import PeftModel
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from backend.app.schemas.cv_schema import CVData
+from backend.app.services.json_utils import extract_json_object
+from backend.app.services.lora_adapter import load_lora_adapter
+from backend.app.services.schema_normalizer import normalize_cv_dict
 
 BASE_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
-ADAPTER_PATH = "./cv-extractor-lora"
-
+ADAPTER_PATH = ROOT / "model" / "checkpoints" / "qwen-0.5b-cv-lora"
 SYSTEM_PROMPT = (
     "Extract structured CV information from the user's bio. "
-    "Respond with ONLY valid JSON matching the CV schema, no other text."
+    "Respond with only valid JSON matching the CV schema."
 )
 
+
 def main():
-    tokenizer = AutoTokenizer.from_pretrained(ADAPTER_PATH)
-    base_model = AutoModelForCausalLM.from_pretrained(
-        BASE_MODEL, torch_dtype=torch.float16, device_map="auto"
+    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = AutoModelForCausalLM.from_pretrained(
+        BASE_MODEL,
+        torch_dtype=torch.float16,
+        low_cpu_mem_usage=True,
     )
-    model = PeftModel.from_pretrained(base_model, ADAPTER_PATH)
+    model.generation_config.do_sample = False
+    model.generation_config.temperature = None
+    model.generation_config.top_p = None
+    model.generation_config.top_k = None
+    load_lora_adapter(model, ADAPTER_PATH)
+    model.to(device)
+    model.half()
     model.eval()
 
     test_inputs = [
@@ -43,22 +71,25 @@ def main():
         with torch.no_grad():
             output = model.generate(
                 **inputs,
-                max_new_tokens=400,
-                temperature=0.1,
+                max_new_tokens=256,
                 do_sample=False,
             )
 
         result = tokenizer.decode(
-            output[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True
+            output[0][inputs["input_ids"].shape[1] :], skip_special_tokens=True
         )
+        repaired = normalize_cv_dict(extract_json_object(result))
         print(f"INPUT: {bio}")
         print(f"OUTPUT: {result}")
         try:
-            json.loads(result)
-            print("valid JSON")
+            parsed = CVData.model_validate(repaired)
+            print("repaired:", parsed.model_dump())
         except json.JSONDecodeError:
             print("INVALID JSON")
+        except Exception as exc:
+            print(f"REPAIR FAILED: {exc}")
         print("-" * 60)
+
 
 if __name__ == "__main__":
     main()

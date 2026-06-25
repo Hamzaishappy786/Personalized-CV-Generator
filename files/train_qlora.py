@@ -26,7 +26,7 @@ MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
 DATA_PATH = Path("files/data.jsonl")
 OUTPUT_DIR = Path("model/checkpoints/qwen-0.5b-cv-lora")
 MAX_LEN = 512
-USE_4BIT = True
+USE_4BIT = False
 
 SYSTEM_PROMPT = (
     "Extract structured CV information from the user's bio. "
@@ -73,7 +73,7 @@ def build_example(tokenizer, example):
 def main():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     if tokenizer.pad_token is None:
-      tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token = tokenizer.eos_token
 
     examples = load_examples(DATA_PATH)
     print(f"Loaded {len(examples)} examples")

@@ -152,8 +152,9 @@ python files\train_qlora.py
 
 ### Notes on GPU stack
 
-- The model stack is pinned for `torch==1.12.1+cu113` and Python `3.10.11`
-- Keep `bitsandbytes` out on Windows unless you know your local install supports it
+- Your installed PyTorch is `torch==1.12.1+cu113` on Python `3.10.11`
+- `peft` requires `torch>=1.13.0`, so QLoRA needs the optional `model/requirements-qlora.txt`
+- Use `model/requirements.txt` for the current environment
 
 ### Quick Run Order
 

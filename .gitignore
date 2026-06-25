@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Frontend
+node_modules/
+dist/
+build/
+
+# Model weights / checkpoints
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+model/checkpoints/
+model/**/checkpoint-*/
+
+# Local generated data and exports
+storage/
+files/output/
+files/exports/
+*.pdf
+*.docx
+
+# Logs
+*.log
+

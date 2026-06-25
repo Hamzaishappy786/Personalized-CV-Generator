@@ -11,4 +11,3 @@ def training_status():
 @router.post("/start")
 def start_training():
     return {"message": "training start endpoint"}
-

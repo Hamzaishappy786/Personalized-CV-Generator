@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.cv_routes import router as cv_router
-from app.api.template_routes import router as template_router
-from app.api.train_routes import router as train_router
+from backend.app.api.cv_routes import router as cv_router
+from backend.app.api.template_routes import router as template_router
+from backend.app.api.train_routes import router as train_router
 
 
 app = FastAPI(title="Personalized CV Generator")

@@ -5,9 +5,9 @@ from docx import Document
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
-from app.schemas.cv_schema import CVData
-from app.services.model_service import infer_cv_data
-from app.services.template_service import get_template
+from backend.app.schemas.cv_schema import CVData
+from backend.app.services.model_service import infer_cv_data
+from backend.app.services.template_service import get_template
 
 
 EXPORT_DIR = Path("storage/exports")

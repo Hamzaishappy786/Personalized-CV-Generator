@@ -1,6 +1,6 @@
 import re
 
-from app.schemas.cv_schema import CVData
+from backend.app.schemas.cv_schema import CVData
 
 
 def _extract_name(raw_text: str) -> str | None:

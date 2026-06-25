@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from app.schemas.request_schema import ParseRequest, ExportRequest
-from app.services.model_service import infer_cv_data
-from app.services.render_service import render_preview
-from app.services.export_service import export_document
+from backend.app.schemas.request_schema import ParseRequest, ExportRequest
+from backend.app.services.model_service import infer_cv_data
+from backend.app.services.render_service import render_preview
+from backend.app.services.export_service import export_document
 
 router = APIRouter()
 

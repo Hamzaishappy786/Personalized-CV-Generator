@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.services.template_service import list_templates as list_template_defs
-from app.services.template_service import get_template as get_template_def
+from backend.app.services.template_service import list_templates as list_template_defs
+from backend.app.services.template_service import get_template as get_template_def
 
 router = APIRouter()
 

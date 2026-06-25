@@ -153,7 +153,8 @@ python files\train_qlora.py
 ### Notes on GPU stack
 
 - Your installed PyTorch is `torch==1.12.1+cu113` on Python `3.10.11`
-- `peft` requires `torch>=1.13.0`, so QLoRA needs the optional `model/requirements-qlora.txt`
+- The current training path uses a lightweight custom LoRA adapter, so `peft` is not required
+- `model/requirements-qlora.txt` is only for a future upgraded torch/PEFT environment
 - Use `model/requirements.txt` for the current environment
 
 ### Quick Run Order

@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
 from app.schemas.cv_schema import CVData
-from app.services.generation_service import generate_cv_data
+from app.services.model_service import infer_cv_data
 from app.services.template_service import get_template
 
 
@@ -57,7 +57,7 @@ def _export_docx(path: Path, cv_data: CVData, template_id: str) -> None:
 
 
 def export_document(text: str, template_id: str, format_name: Literal["pdf", "docx"]) -> dict:
-    cv_data = generate_cv_data(text)
+    cv_data = infer_cv_data(text)
     export_dir = _ensure_export_dir()
     filename = f"cv-export-{template_id}.{format_name}"
     output_path = export_dir / filename

@@ -146,8 +146,14 @@ npm run dev
 ### Training
 
 ```powershell
+pip install -r model\requirements.txt
 python files\train_qlora.py
 ```
+
+### Notes on GPU stack
+
+- The model stack is pinned for `torch==1.12.1+cu113` and Python `3.10.11`
+- Keep `bitsandbytes` out on Windows unless you know your local install supports it
 
 ### Quick Run Order
 

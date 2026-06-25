@@ -1,34 +1,15 @@
 from fastapi import APIRouter
+from app.services.template_service import list_templates as list_template_defs
+from app.services.template_service import get_template as get_template_def
 
 router = APIRouter()
 
 
 @router.get("/")
 def list_templates():
-    return {
-        "templates": [
-            {
-                "id": "ats-clean",
-                "name": "ATS Clean",
-                "category": "ats",
-                "description": "Simple, readable, recruiter-friendly layout.",
-            },
-            {
-                "id": "modern-professional",
-                "name": "Modern Professional",
-                "category": "modern",
-                "description": "Balanced layout with subtle visual styling.",
-            },
-            {
-                "id": "creative-simple",
-                "name": "Creative Simple",
-                "category": "creative",
-                "description": "Light personality without hurting readability.",
-            },
-        ]
-    }
+    return {"templates": list_template_defs()}
 
 
 @router.get("/{template_id}")
 def get_template(template_id: str):
-    return {"template_id": template_id, "status": "ok"}
+    return {"template": get_template_def(template_id)}

@@ -8,6 +8,6 @@ class ParseRequest(BaseModel):
 
 
 class ExportRequest(BaseModel):
-    cv_id: Optional[str] = None
+    text: str
+    template_id: Optional[str] = None
     format: str = "pdf"
-

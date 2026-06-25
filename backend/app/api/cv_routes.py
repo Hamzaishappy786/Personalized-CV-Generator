@@ -22,4 +22,5 @@ def preview_cv(payload: ParseRequest):
 
 @router.post("/export")
 def export_cv(payload: ExportRequest):
-    return export_document(generate_cv_data(payload.cv_id or ""), payload.format)
+    template_id = payload.template_id or "ats-clean"
+    return export_document(payload.text, template_id, payload.format)

@@ -124,3 +124,34 @@ Keep commits small and focused:
 - Keep the browser light; do not run model inference in the frontend
 - Keep layout logic in templates, not in the model
 - Prefer simple, reusable files over one large app file
+
+## Local Setup
+
+### Backend
+
+```powershell
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+### Frontend
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+### Training
+
+```powershell
+python files\train_qlora.py
+```
+
+### Quick Run Order
+
+1. Start the backend on port `8000`
+2. Start the frontend dev server
+3. Paste a bio into the UI
+4. Generate preview or export PDF/DOCX

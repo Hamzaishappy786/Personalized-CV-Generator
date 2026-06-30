@@ -18,17 +18,34 @@ ENV/
 # Environment files
 .env
 .env.*
+*.local
 
 # Editor / OS
 .DS_Store
 Thumbs.db
-.idea/
-.vscode/
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Frontend
-node_modules/
-dist/
-build/
+node_modules
+dist
+dist-ssr
+build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Model weights / checkpoints
 *.pt
@@ -46,7 +63,3 @@ files/output/
 files/exports/
 *.pdf
 *.docx
-
-# Logs
-*.log
-

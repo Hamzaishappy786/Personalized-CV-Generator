@@ -1,0 +1,12 @@
+src/
+public/
+logo/
+resume examples/
+.vite/
+node_modules/
+dist/
+index.html
+vite.config.ts
+tsconfig*.json
+.oxlintrc.json
+*.local

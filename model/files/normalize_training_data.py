@@ -32,6 +32,12 @@ def main():
     for path in INPUT_PATHS:
         for row in load_rows(path):
             output = normalize_cv_dict(row.get("output", {}))
+            if not isinstance(output, dict):
+                continue
+            if not output.get("name"):
+                continue
+            if not any(output.get(key) for key in ("education", "experience", "skills", "projects", "certifications")):
+                continue
             normalized.append({"input": row["input"], "output": output})
 
     with OUTPUT_PATH.open("w", encoding="utf-8") as handle:

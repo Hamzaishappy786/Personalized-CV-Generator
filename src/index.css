@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* Class-based dark mode — toggled via js on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease both;
+}
+
+@keyframes cardFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.28; }
+  100% { opacity: 0; }
+}
+
+.card-flash {
+  opacity: 0;
+}
+
+.group:hover .card-flash {
+  animation: cardFlash 140ms ease-out;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ── Brand logo dark-mode swap ── */
+.dark .brand-logo-light { display: none; }
+.dark .brand-logo-dark  { display: block !important; }
+
+/* Aura glow around the dark logo */
+.dark .brand-logo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow:
+    0 0 10px 2px rgba(96, 215, 255, 0.22),
+    0 0 22px 4px rgba(255, 170, 60, 0.12);
+}
+
+/* ── Resume sheet sizing (screen) ── */
+.resume-sheet {
+  width: 210mm;
+  min-height: 297mm;
+}
+
+/* ── Print styles — browser-native PDF output ── */
+@media print {
+  /* Hide all app chrome */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset page chrome */
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Expand the sheet to fill the page */
+  .resume-sheet {
+    width: 100%;
+    min-height: auto;
+    box-shadow: none !important;
+    margin: 0;
+  }
+
+  /* A4, no browser margins (templates handle their own padding) */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Avoid breaking inside experience/education/project cards */
+  [data-print-block] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

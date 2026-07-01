@@ -49,4 +49,4 @@ Then open http://localhost:5173 in your browser.
 
 ## Release
 
-Latest release: [v1.0.0](https://github.com/Hamzaishappy786/Personalized-CV-Generator/releases/tag/v1.0.0)
+Latest release: [v1.0.1](https://github.com/Hamzaishappy786/Personalized-CV-Generator/releases/tag/v1.0.1)
